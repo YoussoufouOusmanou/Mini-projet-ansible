@@ -1,0 +1,33 @@
+---
+- name: httpd install play
+  hosts: prod
+  become: true
+  vars_files:
+   - files/secret/credentials.yml
+  pre_tasks:
+    - name: download python pip script
+      get_url:
+        url: https://bootstrap.pypa.io/pip/2.7/get-pip.py
+        dest: /tmp/get-pip.py
+    - name: install python-pip
+      command: python2.7 /tmp/get-pip.py
+      changed_when: false
+    - name: install docker python
+      pip: name=docker-py
+    - name: install yum and git
+      yum:
+       name: '{{item}}'
+       state: present
+      when:
+      - ansible_facts['distribution'] == "CentOS"
+      loop:
+        - git
+        - wget
+- hosts: hosts
+  become: true
+  roles:
+    - copie-template
+- hosts: hosts
+  become: true
+  roles:
+   - create-httpd-container

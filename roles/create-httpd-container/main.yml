@@ -1,0 +1,9 @@
+- name: create httpd container
+  docker_container:
+      name: webapp
+      image: httpd
+      ports:
+       - "80:80"
+      volumes:
+       - /home/admin/index.html:/usr/local/apache2/htdocs/index.html
+ 
