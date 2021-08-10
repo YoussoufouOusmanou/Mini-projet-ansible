@@ -23,11 +23,11 @@
       loop:
         - git
         - wget
-- hosts: hosts
+- hosts: prod
   become: true
   roles:
     - copie-template
-- hosts: hosts
+- hosts: prod
   become: true
   roles:
    - create-httpd-container
